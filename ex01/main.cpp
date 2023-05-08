@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 
 	try {
 		RPN rpn(argv[1]);
-		rpn.splitExpr();
+		rpn.execute();
 	} catch (std::exception e) {
 		std::cout << "Error" << std::endl;
 	}
