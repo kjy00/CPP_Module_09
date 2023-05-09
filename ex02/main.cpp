@@ -22,7 +22,8 @@ bool isValidNumber(const char* end, int number)
 	return true;
 }
 
-void addNumbersToContainers(int argc, char* argv[], std::vector<int>& vectorNumbers, std::list<int>& listNumbers)
+template <typename T>
+void addNumbersToContainer(int argc, char* argv[], T& container)
 {
 	for (int i = 1; i < argc; i++)
 	{
@@ -31,8 +32,7 @@ void addNumbersToContainers(int argc, char* argv[], std::vector<int>& vectorNumb
 
 		if (isValidNumber(end, number))
 		{
-			vectorNumbers.push_back(number);
-			listNumbers.push_back(number);
+			container.push_back(number);
 		}
 		else
 		{
@@ -63,28 +63,30 @@ int main(int argc, char* argv[])
 	}
 
 	PmergeMe pMergeMe;
+	std::vector<int> orignal;
 	std::vector<int> vectorNumbers;
 	std::list<int> listNumbers;
 
-	addNumbersToContainers(argc, argv, vectorNumbers, listNumbers);
-
-	display(listNumbers, "Before");
+	addNumbersToContainer(argc, argv, orignal);
+	display(orignal, "Before");
 
 	clock_t vectorStart = clock();
+	addNumbersToContainer(argc, argv, vectorNumbers);
 	pMergeMe.mergeInsertionSort(vectorNumbers, 0, vectorNumbers.size() - 1);
 	clock_t vectorEnd = clock();
 
 	clock_t listStart = clock();
+	addNumbersToContainer(argc, argv, listNumbers);
 	pMergeMe.mergeInsertionSort(listNumbers, listNumbers.begin(), listNumbers.end());
 	clock_t listEnd = clock();
-
-	display(vectorNumbers, "After");
 
 	double vectorTime = static_cast<double>(vectorEnd - vectorStart) / CLOCKS_PER_SEC;
 	double listTime = static_cast<double>(listEnd - listStart) / CLOCKS_PER_SEC;
 
-	std::cout << "Time to process a range of " << vectorNumbers.size() << " elements with std::vector: " << std::fixed << std::setprecision(6) << vectorTime << " us" << std::endl;
-	std::cout << "Time to process a range of " << listNumbers.size() << " elements with std::list: " << std::fixed << std::setprecision(6) << listTime << " us" << std::endl;
+	display(listNumbers, "After");
+
+	std::cout << "Time to process a range of " << vectorNumbers.size() << " elements with std::vector: " << std::fixed << std::setprecision(6) << vectorTime << " s" << std::endl;
+	std::cout << "Time to process a range of " << listNumbers.size() << " elements with std::list: " << std::fixed << std::setprecision(6) << listTime << " s" << std::endl;
 
 	return 0;
 }

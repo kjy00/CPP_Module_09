@@ -155,7 +155,7 @@ void PmergeMe::mergeSort(std::list<int>::iterator left, std::list<int>::iterator
 
 void PmergeMe::mergeInsertionSort(std::list<int> &numbers, std::list<int>::iterator left, std::list<int>::iterator right)
 {
-	if (std::distance(left, right) + 1 <= 15)
+	if (std::distance(left, right) + 1 <= 4)
 	{
 		insertionSort(left, right);
 	}
@@ -163,7 +163,6 @@ void PmergeMe::mergeInsertionSort(std::list<int> &numbers, std::list<int>::itera
 	{
 		std::list<int>::iterator mid = left;
 		std::advance(mid, std::distance(left, right) / 2);
-
 		mergeInsertionSort(numbers, left, mid);
 		mergeInsertionSort(numbers, mid, right);
 
